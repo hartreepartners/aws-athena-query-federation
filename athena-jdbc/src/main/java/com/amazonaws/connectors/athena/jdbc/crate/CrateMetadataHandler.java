@@ -78,7 +78,7 @@ public class CrateMetadataHandler
      */
     public CrateMetadataHandler()
     {
-        this(JDBCUtil.getSingleDatabaseConfigFromEnv(JdbcConnectionFactory.DatabaseEngine.POSTGRES));
+        this(JDBCUtil.getSingleDatabaseConfigFromEnv(JdbcConnectionFactory.DatabaseEngine.CRATE));
     }
 
     public CrateMetadataHandler(final DatabaseConnectionConfig databaseConnectionConfig)
@@ -96,9 +96,9 @@ public class CrateMetadataHandler
     @Override
     public Schema getPartitionSchema(final String catalogName)
     {
-        SchemaBuilder schemaBuilder = SchemaBuilder.newBuilder()
-                .addField(BLOCK_PARTITION_SCHEMA_COLUMN_NAME, Types.MinorType.VARCHAR.getType())
-                .addField(BLOCK_PARTITION_COLUMN_NAME, Types.MinorType.VARCHAR.getType());
+        SchemaBuilder schemaBuilder = SchemaBuilder.newBuilder();
+//                .addField(BLOCK_PARTITION_SCHEMA_COLUMN_NAME, Types.MinorType.VARCHAR.getType())
+//                .addField(BLOCK_PARTITION_COLUMN_NAME, Types.MinorType.VARCHAR.getType());
         return schemaBuilder.build();
     }
 
@@ -107,12 +107,12 @@ public class CrateMetadataHandler
     {
         LOGGER.info("{}: Catalog {}, table {}", getTableLayoutRequest.getQueryId(), getTableLayoutRequest.getTableName().getSchemaName(),
                 getTableLayoutRequest.getTableName().getTableName());
-        blockWriter.writeRows((Block block, int rowNum) -> {
-            block.setValue(BLOCK_PARTITION_SCHEMA_COLUMN_NAME, rowNum, ALL_PARTITIONS);
-            block.setValue(BLOCK_PARTITION_COLUMN_NAME, rowNum, ALL_PARTITIONS);
-            //we wrote 1 row so we return 1
-            return 1;
-        });
+//        blockWriter.writeRows((Block block, int rowNum) -> {
+//            block.setValue(BLOCK_PARTITION_SCHEMA_COLUMN_NAME, rowNum, ALL_PARTITIONS);
+//            block.setValue(BLOCK_PARTITION_COLUMN_NAME, rowNum, ALL_PARTITIONS);
+//            //we wrote 1 row so we return 1
+//            return 1;
+//        });
 //        try (Connection connection = getJdbcConnectionFactory().getConnection(getCredentialProvider())) {
 //            List<String> parameters = Arrays.asList(getTableLayoutRequest.getTableName().getSchemaName(),
 //                    getTableLayoutRequest.getTableName().getTableName());
@@ -158,7 +158,7 @@ public class CrateMetadataHandler
         Set<Split> splits = new HashSet<>();
         Block partitions = getSplitsRequest.getPartitions();
 
-        boolean splitterUsed = false;
+        boolean splitterUsed = true;
         if (partitions.getRowCount() == 1) {
             FieldReader partitionsSchemaFieldReader = partitions.getFieldReader(BLOCK_PARTITION_SCHEMA_COLUMN_NAME);
             partitionsSchemaFieldReader.setPosition(0);
