@@ -53,6 +53,9 @@ public class GenericJdbcConnectionFactory
     private static final String POSTGRESQL_DRIVER_CLASS = "org.postgresql.Driver";
     private static final int POSTGRESQL_DEFAULT_PORT = 5432;
 
+    private static final String CRATE_DRIVER_CLASS = "io.crate.client.jdbc.CrateDriver";
+    private static final int CRATE_DEFAULT_PORT = 5432;
+
     private static final String REDSHIFT_DRIVER_CLASS = "com.amazon.redshift.jdbc.Driver";
     private static final int REDSHIFT_DEFAULT_PORT = 5439;
 
@@ -62,7 +65,7 @@ public class GenericJdbcConnectionFactory
     private static final ImmutableMap<DatabaseEngine, DatabaseConnectionInfo> CONNECTION_INFO = ImmutableMap.of(
             DatabaseEngine.MYSQL, new DatabaseConnectionInfo(MYSQL_DRIVER_CLASS, MYSQL_DEFAULT_PORT),
             DatabaseEngine.POSTGRES, new DatabaseConnectionInfo(POSTGRESQL_DRIVER_CLASS, POSTGRESQL_DEFAULT_PORT),
-            DatabaseEngine.CRATE, new DatabaseConnectionInfo(POSTGRESQL_DRIVER_CLASS, POSTGRESQL_DEFAULT_PORT),
+            DatabaseEngine.CRATE, new DatabaseConnectionInfo(CRATE_DRIVER_CLASS, CRATE_DEFAULT_PORT),
             DatabaseEngine.REDSHIFT, new DatabaseConnectionInfo(REDSHIFT_DRIVER_CLASS, REDSHIFT_DEFAULT_PORT));
 
     private final DatabaseConnectionConfig databaseConnectionConfig;
