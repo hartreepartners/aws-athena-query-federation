@@ -41,7 +41,8 @@ public interface JdbcConnectionFactory
     {
         MYSQL("mysql"),
         POSTGRES("postgres"),
-        REDSHIFT("redshift");
+        REDSHIFT("redshift"),
+        CRATE("crate");
 
         private final String dbName;
 

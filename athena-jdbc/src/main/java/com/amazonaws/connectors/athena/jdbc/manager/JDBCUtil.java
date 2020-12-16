@@ -22,6 +22,7 @@ package com.amazonaws.connectors.athena.jdbc.manager;
 import com.amazonaws.connectors.athena.jdbc.connection.DatabaseConnectionConfig;
 import com.amazonaws.connectors.athena.jdbc.connection.DatabaseConnectionConfigBuilder;
 import com.amazonaws.connectors.athena.jdbc.connection.JdbcConnectionFactory;
+import com.amazonaws.connectors.athena.jdbc.crate.CrateMetadataHandler;
 import com.amazonaws.connectors.athena.jdbc.mysql.MySqlMetadataHandler;
 import com.amazonaws.connectors.athena.jdbc.mysql.MySqlRecordHandler;
 import com.amazonaws.connectors.athena.jdbc.postgresql.PostGreSqlMetadataHandler;
@@ -103,6 +104,8 @@ public final class JDBCUtil
             case REDSHIFT:
             case POSTGRES:
                 return new PostGreSqlMetadataHandler(databaseConnectionConfig);
+            case CRATE:
+                return new CrateMetadataHandler(databaseConnectionConfig);
             default:
                 throw new RuntimeException("Mux: Unhandled database engine " + databaseConnectionConfig.getType());
         }
